@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6G Connectivity Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .dashboard {
+            width: 80%;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .stat {
+            width: 30%;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .stat h2 {
+            margin-top: 0;
+        }
+        .chart {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>6G Connectivity Dashboard</h1>
+        <div class="stats">
+            <div class="stat">
+                <h2>Speed</h2>
+                <p id="speed">100 Gbps</p>
+            </div>
+            <div class="stat">
+                <h2>Latency</h2>
+                <p id="latency">1 ms</p>
+            </div>
+            <div class="stat">
+                <h2>Coverage</h2>
+                <p id="coverage">99%</p>
+            </div>
+        </div>
+        <div class="chart">
+            <canvas id="speedChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const speedChart = document.getElementById('speedChart').getContext('2d');
+        const chart = new Chart(speedChart, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                datasets: [{
+                    label: 'Speed (Gbps)',
+                    data: [50, 60, 70, 80, 90],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Update stats every 5 seconds
+        setInterval(() => {
+            const speed = Math.floor(Math.random() * 100);
+            const latency = Math.floor(Math.random() * 10);
+            const coverage = Math.floor(Math.random() * 100);
+            document.getElementById('speed').innerText = `${speed} Gbps`;
+            document.getElementById('latency').innerText = `${latency} ms`;
+            document.getElementById('coverage').innerText = `${coverage}%`;
+            chart.data.datasets[0].data.push(speed);
+            chart.data.datasets[0].data.shift();
+            chart.update();
+        }, 5000);
+    </script>
+</body>
+</html>
